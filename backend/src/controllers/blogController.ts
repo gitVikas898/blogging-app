@@ -11,7 +11,7 @@ interface AuthenticatedRequest extends Request{
     user?:{userId:number };
 }
 
-async function createBlog(req:AuthenticatedRequest,res:Response):Promise<void> {
+export async function createBlog(req:AuthenticatedRequest,res:Response):Promise<void> {
     const {title,content}:BlogRequestBody = req.body;
     if(!req.user){
         res.status(401).json({message:"Unauthorised"});
@@ -28,7 +28,7 @@ async function createBlog(req:AuthenticatedRequest,res:Response):Promise<void> {
     }
 }
 
-async function getBlogs(req:Request,res:Response) {
+export async function getBlogs(req:Request,res:Response) {
     try{
         const blogs = await prisma.blog.findMany({
             include:{

@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { Request,Response} from "express"
 const prisma = new PrismaClient();
 
@@ -27,6 +27,7 @@ export async function createBlog(req:AuthenticatedRequest,res:Response):Promise<
         res.status(500).json({ message: (error as Error).message });
     }
 }
+
 
 export async function getBlogs(req:Request,res:Response) {
     try{

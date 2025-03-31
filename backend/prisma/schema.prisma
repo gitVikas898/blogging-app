@@ -60,6 +60,7 @@ model Like {
   blog Blog? @relation(fields: [blogId],references: [id])
   blogId Int
   createdAt DateTime @default(now())
+  @@unique([userId, blogId]) 
 }
 
 model Bio {

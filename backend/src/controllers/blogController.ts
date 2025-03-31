@@ -33,7 +33,12 @@ export async function getBlogs(req:Request,res:Response) {
     try{
         const blogs = await prisma.blog.findMany({
             include:{
-                author:{select:{username:true}}
+                author:{select:{username:true}},
+               _count:{
+                select:{
+                    Like:true
+                }
+               }
             }
         })
         res.status(200).json(blogs);

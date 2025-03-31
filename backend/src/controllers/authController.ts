@@ -131,6 +131,13 @@ export const getUser = async function (req: Request, res: Response) {
               select:{
                 Follow:true,
               }
+            },
+            Like:{
+              select:{
+                blog:true,
+                blogId:true,
+                userId:true
+              }
             }
         }
     });

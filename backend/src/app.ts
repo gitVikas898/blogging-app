@@ -17,7 +17,7 @@ app.use(morgan("dev")); // Log requests
 // 🌟 Routes setup
 app.use("/api/auth", authRoutes); // Authentication routes
 app.use("/api/", blogRoutes); // Blog-related routes
-app.use("/api/",bioRoutes);
+app.use("/api/bio",bioRoutes);
 // 🌟 Global Error Handling Middleware
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
     console.error(err.stack);

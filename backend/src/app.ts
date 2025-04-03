@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes";
 import blogRoutes from "./routes/blogRoutes";
 import bioRoutes from "./routes/bioRoutes";
+import intrestRoutes from "./routes/intrestRoutes"
 dotenv.config(); // Load environment variables
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(morgan("dev")); // Log requests
 app.use("/api/auth", authRoutes); // Authentication routes
 app.use("/api/", blogRoutes); // Blog-related routes
 app.use("/api/bio",bioRoutes);
+app.use("/api/interest",intrestRoutes)
 // 🌟 Global Error Handling Middleware
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
     console.error(err.stack);

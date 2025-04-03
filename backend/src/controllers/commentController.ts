@@ -26,7 +26,8 @@ export async function createComment(req:AuthenticatedUser, res:Response) {
                 blogId
             }
         })
-        res.status(201).json(comment);
+        const response = comment.content
+        res.status(201).json({message:`Comment: ${response} created`});
 
     }catch(error){
         res.status(500).json({ message: "Error creating comment", error });
@@ -60,8 +61,9 @@ export async function deleteComment(req:AuthenticatedUser,res:Response) {
         const deleteComment = await prisma.comment.delete({
             where:{id:Number(id)}
         });
-
-        res.json(deleteComment);
+        
+        const response = deleteComment.content;
+        res.json({message:`Comment: ${response} deleted`});
 
     }catch(error){
         res.status(500).json({ message: "Error deleting comment", error });

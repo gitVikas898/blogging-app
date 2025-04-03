@@ -19,11 +19,12 @@ model User {
 
   Bio Bio[]
 
-  Intrests Intrests[]
-
+ 
   Follow Follow[]
 
   Bookmark Bookmark[]
+
+  Interest Interest[]
 }
 
 model Blog{
@@ -72,12 +73,14 @@ model Bio {
   updatedAt DateTime @default(now())
 }
 
-model Intrests{
-  id Int @id @default(autoincrement())
-  user User @relation(fields: [userId],references: [id])
-  userId Int
-  title String
-  createdAt DateTime @default(now())
+model Interest {
+  id         Int      @id @default(autoincrement())
+  user       User?    @relation(fields: [userId], references: [id])
+  userId     Int?     // Nullable to allow general interests
+  title      String   
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, title]) // Prevent duplicates for the same user
 }
 
 model Follow {

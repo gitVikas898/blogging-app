@@ -116,7 +116,7 @@ export const getUser = async function (req: Request, res: Response) {
                 updatedAt:true
               }
             },
-            Intrests:{
+            Interest:{
               select:{
                 title:true
               }
@@ -153,7 +153,7 @@ export const getUser = async function (req: Request, res: Response) {
       blogs:user?.blogs,
       comments:user?.comments,
       bio:user?.Bio,
-      intrests:user?.Intrests,
+      intrests:user?.Interest,
       followerList:user?.Follow,
       followersCount:user?._count?.Follow,
       memberSince:user?.createdAt

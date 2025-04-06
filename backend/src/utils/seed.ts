@@ -1,29 +1,40 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-const defaultInterests = [
-  { title: "Technology", userId: null },
-  { title: "Sports", userId: null },
-  { title: "Music", userId: null },
-  { title: "Travel", userId: null },
-  { title: "Fitness", userId: null },
-];
+async function main() {
+  const tags = [
+    'Technology',
+    'Health',
+    'Travel',
+    'Food',
+    'Lifestyle',
+    'Finance',
+    'Education',
+    'Sports',
+    'Entertainment',
+    'Science',
+    'Coding',
+    'Startups',
+    'Self Improvement',
+  ];
 
-async function seed() {
-  console.log("Seeding default interests...");
+  for (const name of tags) {
+    await prisma.tag.upsert({
+      where: { name },
+      update: {},
+      create: { name },
+    });
+  }
 
-  // Use createMany for bulk insert
-  await prisma.interest.createMany({
-    data: defaultInterests,
-    skipDuplicates: true, // ✅ Prevents duplicates in PostgreSQL (NeonDB)
-  });
-
-  console.log("Seeding complete!");
+  console.log('✅ Tags seeded!');
 }
 
-seed()
-  .catch((e) => console.error("Error:", e))
+main()
+  .catch((e) => {
+    console.error('❌ Seed failed:', e);
+    process.exit(1);
+  })
   .finally(async () => {
     await prisma.$disconnect();
   });

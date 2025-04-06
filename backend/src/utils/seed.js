@@ -38,35 +38,55 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var client_1 = require("@prisma/client");
 var prisma = new client_1.PrismaClient();
-var defaultInterests = [
-    { title: "Technology", userId: null },
-    { title: "Sports", userId: null },
-    { title: "Music", userId: null },
-    { title: "Travel", userId: null },
-    { title: "Fitness", userId: null },
-];
-function seed() {
+function main() {
     return __awaiter(this, void 0, void 0, function () {
+        var tags, _i, tags_1, name_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    console.log("Seeding default interests...");
-                    // Use createMany for bulk insert
-                    return [4 /*yield*/, prisma.interest.createMany({
-                            data: defaultInterests,
-                            skipDuplicates: true, // ✅ Prevents duplicates in PostgreSQL (NeonDB)
-                        })];
+                    tags = [
+                        'Technology',
+                        'Health',
+                        'Travel',
+                        'Food',
+                        'Lifestyle',
+                        'Finance',
+                        'Education',
+                        'Sports',
+                        'Entertainment',
+                        'Science',
+                        'Coding',
+                        'Startups',
+                        'Self Improvement',
+                    ];
+                    _i = 0, tags_1 = tags;
+                    _a.label = 1;
                 case 1:
-                    // Use createMany for bulk insert
+                    if (!(_i < tags_1.length)) return [3 /*break*/, 4];
+                    name_1 = tags_1[_i];
+                    return [4 /*yield*/, prisma.tag.upsert({
+                            where: { name: name_1 },
+                            update: {},
+                            create: { name: name_1 },
+                        })];
+                case 2:
                     _a.sent();
-                    console.log("Seeding complete!");
+                    _a.label = 3;
+                case 3:
+                    _i++;
+                    return [3 /*break*/, 1];
+                case 4:
+                    console.log('✅ Tags seeded!');
                     return [2 /*return*/];
             }
         });
     });
 }
-seed()
-    .catch(function (e) { return console.error("Error:", e); })
+main()
+    .catch(function (e) {
+    console.error('❌ Seed failed:', e);
+    process.exit(1);
+})
     .finally(function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {

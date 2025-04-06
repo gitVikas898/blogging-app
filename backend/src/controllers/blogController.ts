@@ -79,6 +79,11 @@ export async function getBlogs(req:Request,res:Response) {
                 select:{
                     Like:true
                 }
+               },
+               BlogTags:{
+                select:{
+                    tag:true,
+                }
                }
             }
         })

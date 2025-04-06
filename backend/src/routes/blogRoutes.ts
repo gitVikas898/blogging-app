@@ -4,6 +4,7 @@ import { authMiddleware } from "../middlewares/auth";
 import { likeBlog } from "../controllers/likeController";
 import { createComment, deleteComment } from "../controllers/commentController";
 import { toggleBookmark } from "../controllers/bookMarkController";
+import { assignTag, getBlogsByTag } from "../controllers/tagController";
 const router = express.Router();
 
 
@@ -19,5 +20,10 @@ router.delete("/blog/comment/:id",authMiddleware,deleteComment);
 //bookmark blog route
 
 router.post("/blog/bookmark",authMiddleware,toggleBookmark)
+
+//Tag Routes
+
+router.post("/blogs/:id/tags",authMiddleware,assignTag);
+router.get("/blogs/by-tag/:tagId",getBlogsByTag);
 
 export default router

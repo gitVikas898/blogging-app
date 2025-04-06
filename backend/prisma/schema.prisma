@@ -48,17 +48,17 @@ model Blog{
 model Comment {
   id Int @id @default(autoincrement())
   content String
-  user User @relation(fields: [userId] , references: [id])
+  user User @relation(fields: [userId] , references: [id], onDelete: Cascade)
   userId Int
-  blog Blog @relation(fields: [blogId],references: [id])
+  blog Blog @relation(fields: [blogId],references: [id],onDelete: Cascade)
   blogId Int
 }
 
 model Like {
   id Int @id @default(autoincrement())
-  user User @relation(fields: [userId],references: [id])
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
   userId Int 
-  blog Blog? @relation(fields: [blogId],references: [id])
+  blog Blog? @relation(fields: [blogId],references: [id],onDelete: Cascade)
   blogId Int
   createdAt DateTime @default(now())
   @@unique([userId, blogId]) 
@@ -66,7 +66,7 @@ model Like {
 
 model Bio {
   id Int @id @default(autoincrement())
-  user User @relation(fields: [userId],references: [id])
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
   userId Int @unique
   content String
   createdAt DateTime @default(now())
@@ -75,7 +75,7 @@ model Bio {
 
 model Interest {
   id         Int      @id @default(autoincrement())
-  user       User?    @relation(fields: [userId], references: [id])
+  user       User?    @relation(fields: [userId], references: [id],onDelete: Cascade)
   userId     Int?     // Nullable to allow general interests
   title      String   
   createdAt  DateTime @default(now())
@@ -98,17 +98,17 @@ model Tag {
 
 model BlogTags {
   id Int @id @default(autoincrement())
-  blog Blog @relation(fields: [blogId],references: [id])
+  blog Blog @relation(fields: [blogId],references: [id],onDelete: Cascade)
   blogId Int
-  tag Tag @relation(fields: [tagId],references: [id])
+  tag Tag @relation(fields: [tagId],references: [id],onDelete: Cascade)
   tagId Int
 }
 
 model Bookmark {
   id       Int @id @default(autoincrement())
-  user     User @relation(fields: [userId], references: [id])
+  user     User @relation(fields: [userId], references: [id],onDelete: Cascade)
   userId   Int
-  blog     Blog @relation(fields: [blogId], references: [id])
+  blog     Blog @relation(fields: [blogId], references: [id],onDelete: Cascade)
   blogId   Int
   createdAt DateTime @default(now())
 }

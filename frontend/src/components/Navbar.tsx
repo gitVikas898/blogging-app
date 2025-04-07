@@ -4,7 +4,7 @@ const Navbar = () => {
   return (
     <nav className="flex py-5 border-b-1 border-black border-solid  container mx-auto items-center justify-around">
         <div id="logo-ct">
-            <h1 className="text-4xl font-semibold">Blogr</h1>
+            <h1 className="text-4xl font-semibold"><Link to={"/"}>Blogr</Link></h1>
         </div>
         <div className="">
             <ul className="flex items-center justify-between gap-10">

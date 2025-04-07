@@ -1,5 +1,5 @@
 import express from "express";
-import { createBlog , getBlogs, publishBlog, updateBlog } from "../controllers/blogController";
+import { createBlog , getBlogById, getBlogs, publishBlog, updateBlog } from "../controllers/blogController";
 import { authMiddleware } from "../middlewares/auth";
 import { likeBlog } from "../controllers/likeController";
 import { createComment, deleteComment } from "../controllers/commentController";
@@ -12,6 +12,7 @@ router.post("/createBlog",authMiddleware,createBlog);
 router.post("/publishBlog",authMiddleware,publishBlog);
 router.patch("/updateBlog/:id",authMiddleware,updateBlog);
 router.get("/blogs",getBlogs);
+router.get("/blogs/:id", getBlogById);
 
 router.post("/blog/like",authMiddleware,likeBlog)
 

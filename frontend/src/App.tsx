@@ -7,6 +7,7 @@ import Navbar from './components/Navbar'
 import Signup from './pages/Signup'
 import Blogs from './pages/Blogs'
 import Footer from './components/Footer'
+import ReadBlog from './pages/ReadBlog'
 function App() {
 
 
@@ -18,6 +19,7 @@ function App() {
             <Route path='/login' element={<Login/>}></Route>
             <Route path='/signup' element={<Signup/>}></Route>
             <Route path='/blogs' element={<Blogs/>}></Route>
+            <Route path='/blogs/:id' element={<ReadBlog/>}></Route>
         </Routes>
       <Footer/>
     </Router>

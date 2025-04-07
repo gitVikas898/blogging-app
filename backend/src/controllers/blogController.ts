@@ -139,3 +139,34 @@ export async function publishBlog(req:AuthenticatedRequest,res:Response) {
         return;
     }
 }
+
+export async function getBlogById(req:Request,res:Response) {
+    const {id} = req.params;
+
+    try{
+
+        const blog = await prisma.blog.findUnique({
+            where:{id:parseInt(id)},
+            include:{
+                author:{select:{username:true}},
+                BlogTags:{
+                    include:{
+                        tag:true,
+                    }
+                },
+                _count:{
+                    select:{Like:true}
+                },
+                comments:true
+            }
+        });
+
+        if(!blog){
+            res.status(404).json({message:"Blog Not Found"});
+        }
+        res.json(blog);
+
+    }catch(error){
+        res.status(500).json({message:"Server error"});
+    }
+}

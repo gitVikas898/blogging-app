@@ -1,3 +1,4 @@
+import { BiArrowToRight, BiBook } from "react-icons/bi"
 import { Link } from "react-router-dom"
 
 const Navbar = () => {
@@ -8,9 +9,9 @@ const Navbar = () => {
         </div>
         <div className="">
             <ul className="flex items-center justify-between gap-10">
-                <li><Link to={"/blogs"}>Read</Link></li>
+                <li><Link to={"/blogs"} className="flex items-center gap-1"><BiBook/> Read</Link></li>
                 <li><Link to={"/login"}>Sign in</Link></li>
-                <li className="block py-2 px-4 bg-black text-white rounded-full"><Link to={"/signup"}>Get Started</Link></li>
+                <li className="block py-2 px-4 bg-black text-white rounded-full"><Link to={"/signup"} className="flex items-center gap-1">Get Started <BiArrowToRight/></Link></li>
             </ul>
         </div>
     </nav>

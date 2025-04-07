@@ -33,16 +33,15 @@ model Blog{
   content String
   author User @relation(fields: [authorId] , references: [id])
   authorId Int
+  readingTime Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
   isPublished Boolean @default(false)
   comments Comment[]
-
   Like Like[]
-
   BlogTags BlogTags[]
-
   Bookmark Bookmark[]
+
 }
 
 model Comment {

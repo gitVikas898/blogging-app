@@ -51,6 +51,7 @@ model Comment {
   userId Int
   blog Blog @relation(fields: [blogId],references: [id],onDelete: Cascade)
   blogId Int
+  createdAt DateTime @default(now())
 }
 
 model Like {
@@ -93,6 +94,7 @@ model Tag {
   id Int @id @default(autoincrement())
   name String @unique
   tag BlogTags[]
+  createdAt DateTime @default(now())
 }
 
 model BlogTags {
@@ -101,6 +103,7 @@ model BlogTags {
   blogId Int
   tag Tag @relation(fields: [tagId],references: [id],onDelete: Cascade)
   tagId Int
+  createdAt DateTime @default(now())
 }
 
 model Bookmark {

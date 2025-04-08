@@ -23,7 +23,7 @@ export async function createComment(req:AuthenticatedUser, res:Response) {
             data:{
                 content,
                 userId,
-                blogId
+                blogId,
             }
         })
         const response = comment.content
@@ -71,3 +71,28 @@ export async function deleteComment(req:AuthenticatedUser,res:Response) {
     }
 }
 
+export async function getComments(req:Request,res:Response) {
+        const {id} = req.params;
+
+        try{
+            const comments = await prisma.comment.findMany({
+                where:{
+                    blogId:Number(id)
+                },
+                include:{
+                    user:{
+                        select:{
+                            username:true,
+                        }
+                    }
+                },
+                orderBy:{
+                    createdAt:"desc",
+                }
+            })
+
+            res.status(200).json(comments);
+        }catch(error){
+            res.status(500).json({ message: "Error fetching comments", error });
+        }
+}

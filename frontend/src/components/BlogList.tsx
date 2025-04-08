@@ -36,7 +36,7 @@ function BlogList(){
                  title={blog.title} content={blog.content} 
                  author={blog.author} _count={blog._count} 
                  BlogTags={blog.BlogTags} createdAt={blog.createdAt}
-                 updatedAt={blog.updatedAt}
+                 updatedAt={blog.updatedAt} comments={blog.comments}
                  />
             ))}
         </div>

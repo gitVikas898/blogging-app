@@ -1,3 +1,4 @@
+
 export interface BlogCardProps {
     id:number,
     title:string,
@@ -17,6 +18,7 @@ export interface BlogCardProps {
     _count:{
         Like:number;
     },
+    comments:CommentType[]
     onClick?: () => void;
 }
 
@@ -32,4 +34,26 @@ export interface BlogType {
   _count: {
     Like: number;
   };
+  comments:CommentType[]
+}
+
+export interface BlogCommentProps {
+  blogId:number,
+  comments:CommentType[]
+  isAuthenticated:boolean,
+  onNewComment?:()=>void
+}
+
+export interface CommentType {
+  id:number,
+  content:string,
+  blogId?:number
+  createdAt:string,
+  user:{
+    username:string
+  }
+}
+
+export interface SignInModalProps{
+    onClose:()=>void
 }

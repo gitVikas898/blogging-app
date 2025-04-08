@@ -2,6 +2,7 @@
 import React from "react";
 import { BlogCardProps } from "../utils/types";
 import { Link } from "react-router-dom";
+import { BiComment, BiHeart } from "react-icons/bi";
 
 const BlogCard: React.FC<BlogCardProps> = ({
     id,
@@ -11,6 +12,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
     createdAt,
     BlogTags,
     _count,
+    comments,
     // optional click handler if needed
 }) => {
     return (
@@ -40,7 +42,10 @@ const BlogCard: React.FC<BlogCardProps> = ({
                     </div>
                 )}
 
-                <p className="text-sm text-gray-500 mt-3">❤️ {_count?.Like ?? 0} Likes</p>
+                <div className="flex items-center gap-2">
+                    <p className="text-sm text-gray-500 mt-3 flex gap-2 items-center"><BiHeart/> {_count?.Like ?? 0} Likes</p>
+                    <p className="text-sm text-gray-500 mt-3 flex gap-2 items-center"><BiComment/> {comments?.length} Comments</p>
+                </div>
             </div>
         </Link>
 

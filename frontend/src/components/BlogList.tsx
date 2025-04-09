@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import BlogCard from "./Blogcard";
 import { BlogCardProps } from "../utils/types";
 import Spinner from "./Spinner";
+import { motion } from 'framer-motion';
 
 function BlogList(){
 
@@ -29,7 +30,11 @@ function BlogList(){
     if(loading) return<Spinner/>
 
     return(
-        <div>
+        <motion.div
+        initial={{ opacity: 0, y: 50 }} // Start faded and slightly below
+        animate={{ opacity: 1, y: 0 }}   // Animate to full opacity and original position
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        >
             {blogs?.map((blog)=>(
                 <BlogCard key={blog.id}
                 id={blog.id}
@@ -39,7 +44,7 @@ function BlogList(){
                  updatedAt={blog.updatedAt} comments={blog.comments}
                  />
             ))}
-        </div>
+        </motion.div>
     )
 }
 

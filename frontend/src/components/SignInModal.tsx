@@ -1,5 +1,5 @@
 
-import SignIn from "./SignIn"
+import SignIn from "./AuthForm"
 import { SignInModalProps } from "../utils/types"
 import { useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion";

@@ -5,6 +5,7 @@ import Spinner from "../components/Spinner";
 import CommentSection from "../components/CommentSection";
 import { BiBookmark, BiHeart } from "react-icons/bi";
 import AuthGuard from "../utils/AuthGuard";
+import { motion } from 'framer-motion';
 
 function BlogDetail() {
   const { id } = useParams();
@@ -36,7 +37,11 @@ function BlogDetail() {
   if (!blog) return <Spinner size={40}/>
 
   return (
-    <div className="max-w-3xl mx-auto p-6 min-h-[80vh]">
+    <motion.div 
+    initial={{ opacity: 0, y: 50 }} // Start faded and slightly below
+    animate={{ opacity: 1, y: 0 }}   // Animate to full opacity and original position
+    transition={{ duration: 0.6, ease: "easeOut" }}
+    className="max-w-3xl mx-auto p-6 min-h-[80vh]">
       <h1 className="text-3xl font-bold mb-4">{blog.title}</h1>
       <div className="flex items-center justify-between">
         <p className="text-gray-600 mb-2">By {blog.author.username}</p>
@@ -49,10 +54,12 @@ function BlogDetail() {
           <AuthGuard isAuthenticated={false}>
             <p className="flex items-center gap-1"><BiHeart/>{blog._count.Like ?? 0}</p>
           </AuthGuard>
-          <p><BiBookmark/></p>
+          <AuthGuard isAuthenticated={false}>
+            <p><BiBookmark/></p>
+          </AuthGuard>
       </div>
       <CommentSection comments={comments} blogId={blogId} isAuthenticated={false}/>
-    </div>
+    </motion.div>
   );
 }
 

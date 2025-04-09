@@ -1,21 +1,25 @@
-import { Link } from "react-router-dom"
 
-
+import { motion } from "framer-motion"
+import SignIn from "../components/AuthForm"
 const Login = () => {
+
+  const handleSignIn = (data:{email:string,password:string})=>{
+    console.log("Sign In Successfull",data)
+  }
+
   return (
-    <section className="min-h-[78vh] place-items-center grid bg-gray-50">
-        <form className="shadow-lg p-8 w-[500px] flex flex-col items-center gap-8 rounded-md bg-white">
-            <h1 className="text-3xl">Welcome back.</h1>
-            <div className="grid gap-2 w-[300px]" >
-                <input title="email" type="email" placeholder="Email"className="p-2 rounded-md w-full border-gray-400 shadow-sm bg-gray-50 border-solid border outline-none" />
-                <input title="password" type="password" placeholder="Password" className="p-2 rounded-md w-full border-gray-400 shadow-sm bg-gray-50 border-solid border outline-none"/>
-            </div>
-            <div className="w-[300px]">
-                <button type="submit" className="bg-black text-white w-full p-2 rounded-md cursor-pointer hover:opacity-80">Login</button>
-            </div>
-            <p>No account? <Link className="text-lime-500 font-bold" to={"/signup"}>Create one</Link></p>
-        </form>
-    </section>
+    
+      <motion.div
+        initial={{ opacity: 0, y: 50 }} // Start faded and slightly below
+        animate={{ opacity: 1, y: 0 }}   // Animate to full opacity and original position
+        transition={{ duration: 0.6, ease: "easeOut" }}
+       
+      >
+        <section className="grid place-items-center min-h-[78vh] w-full">
+          <SignIn type="signin" heading="Welcome Back" onSubmit={handleSignIn}></SignIn>
+        </section>
+      </motion.div>
+  
   )
 }
 

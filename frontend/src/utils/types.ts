@@ -1,4 +1,5 @@
 
+
 export interface BlogCardProps {
     id:number,
     title:string,
@@ -20,6 +21,7 @@ export interface BlogCardProps {
     },
     comments:CommentType[]
     onClick?: () => void;
+    readingTime?:number
 }
 
 export interface BlogType {
@@ -34,7 +36,8 @@ export interface BlogType {
   _count: {
     Like: number;
   };
-  comments:CommentType[]
+  comments:CommentType[],
+  readingTime:number
 }
 
 export interface BlogCommentProps {
@@ -56,4 +59,38 @@ export interface CommentType {
 
 export interface SignInModalProps{
     onClose:()=>void
+}
+
+export interface TagSectionProps {
+  onTagClick : (tagName:string)=>void;
+  selectedTag :string | null;
+}
+
+export interface TagItem {
+  id: number;
+  name: string;
+}
+
+export interface BlogListProps {
+  selectedTag: string | null;
+}
+
+export interface User {
+  _id: string;
+  username: string;
+  email: string;
+  // add more if needed (e.g. avatar, role)
+}
+export interface AuthStore {
+  isAuthenticated: boolean;
+  token: string | null;
+  user: User | null;
+  login: (token: string, user: User) => void;
+  logout: () => void;
+  setUser: (user: User | null) => void;
+}
+
+
+export interface PrivateRouteProps {
+  children: React.ReactNode;
 }

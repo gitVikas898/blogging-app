@@ -1,10 +1,29 @@
 
 import { motion } from "framer-motion"
 import SignIn from "../components/AuthForm"
+import { useAuthStore } from "../store/useAuthStore"
+import { useNavigate } from "react-router-dom";
 const Login = () => {
 
-  const handleSignIn = (data:{email:string,password:string})=>{
-    console.log("Sign In Successfull",data)
+  const navigate = useNavigate();
+ const handleSignIn = async (data:{email:string,password:string})=>{
+      const res = await fetch("http://localhost:8000/api/auth/login",{
+        method:"POST",
+        headers:{
+          "Content-type":"application/json"
+        },
+        body:JSON.stringify(data)
+  
+      })
+
+      const result = await res.json();
+
+      if (res.ok) {
+        useAuthStore.getState().login(result.token, result.user);
+        navigate("/dashboard")
+      }else{
+        alert(result.message || "Invalid Credentials")
+      }
   }
 
   return (

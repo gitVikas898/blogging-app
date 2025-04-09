@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BlogCommentProps } from '../utils/types';
 import { BiUser } from "react-icons/bi";
+import { useAuthStore } from "../store/useAuthStore";
 
 const CommentSection = ({
     blogId,
@@ -10,20 +11,22 @@ const CommentSection = ({
 }: BlogCommentProps) => {
     const [newComment, setNewComment] = useState("");
     const [loading, setLoading] = useState(false);
-
+    const [commentList, setCommentList] = useState(comments);
+    const { token, user, } = useAuthStore();
     const handleSubmit = async () => {
 
         if (!newComment.trim()) {
             return;
         }
-
+       
         setLoading(true);
 
         try {
             const res = await fetch("http://localhost:8000/api/blog/comment", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization" :"Bearer "+token
                 },
                 body: JSON.stringify({
                     content: newComment,
@@ -32,7 +35,16 @@ const CommentSection = ({
             })
 
             if (res.ok) {
+                const result = await res.json()
+                const enrichedComment = {
+                    ...result,
+                    user:{
+                        username:user?.username
+                    },
+
+                }
                 setNewComment("");
+                setCommentList(prev => [enrichedComment, ...prev])
                 onNewComment?.();
             } else {
                 console.error("Failed to post comment")
@@ -43,15 +55,20 @@ const CommentSection = ({
             setLoading(false);
         }
     }
+    console.log("This is comment list",commentList)
+    useEffect(()=>{
+        setCommentList(comments)
+    },[comments])
+
 
     return (
         <div className="mt-6 border-t pt-4">
             <h2 className="text-lg font-semibold mb-4">Comments</h2>
             {/* Render Existing comments */}
-            {comments.length > 0 ? (
+            {commentList.length > 0 ? (
                 <div  className="space-y-3">
-                    {comments.map((comment) => (
-                        <div key={comment.user.username} className="text-sm bg-gray-100 p-2 rounded-md grid gap-2">
+                    {commentList.map((comment) => (
+                        <div key={comment.createdAt} className="text-sm bg-gray-100 p-2 rounded-md grid gap-2">
                             <div className="flex items-center justify-between">
                                 <p className="flex items-center gap-1"><BiUser/>{comment?.user?.username}</p>
                                 <p>{new Date(comment.createdAt).toLocaleDateString()}</p>

@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import Carousel from "./Carousel";
 import Spinner from "./Spinner";
+import { TagItem, TagSectionProps } from "../utils/types";
 
-interface TagItem {
-    id: number;
-    name: string;
-  }
 
-function TagSection() {
+
+function TagSection({onTagClick,selectedTag}:TagSectionProps) {
 
     const [tags,setTags] = useState<TagItem[]>([]);
 
@@ -30,7 +28,13 @@ function TagSection() {
       items={tags}
       itemClassName="inline-block"
       renderItem={(tag) => (
-        <span className="bg-gray-100 text-gray-700 px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium cursor-pointer">
+        <span
+          onClick={()=>onTagClick(tag.name)}
+          className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium cursor-pointer ${
+            selectedTag === tag.name
+              ? "bg-lime-500 text-white"
+              : "bg-gray-100 text-gray-700"
+          }`}>
           #{tag?.name}
         </span>
       )}

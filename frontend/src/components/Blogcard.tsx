@@ -3,6 +3,7 @@ import React from "react";
 import { BlogCardProps } from "../utils/types";
 import { Link } from "react-router-dom";
 import { BiComment, BiHeart } from "react-icons/bi";
+import { BsClock } from "react-icons/bs";
 
 const BlogCard: React.FC<BlogCardProps> = ({
     id,
@@ -13,12 +14,13 @@ const BlogCard: React.FC<BlogCardProps> = ({
     BlogTags,
     _count,
     comments,
+    readingTime
     // optional click handler if needed
 }) => {
     return (
         <Link to={`/blogs/${id}`}>
             <div
-                className="bg-white mb-2 rounded-2xl  p-6 hover:shadow-lg transition-all cursor-pointer"
+                className="w-full bg-white mb-2 rounded-2xl  p-6 hover:shadow-lg transition-all cursor-pointer"
 
             >
                 <h2 className="text-xl font-bold mb-2">{title}</h2>
@@ -45,6 +47,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
                 <div className="flex items-center gap-2">
                     <p className="text-sm text-gray-500 mt-3 flex gap-2 items-center"><BiHeart/> {_count?.Like ?? 0} Likes</p>
                     <p className="text-sm text-gray-500 mt-3 flex gap-2 items-center"><BiComment/> {comments?.length} Comments</p>
+                    <p className="text-sm text-gray-500 mt-3 flex gap-2 items-center"><BsClock/>{readingTime === null ? "1 min " : `${readingTime} min `}</p>
                 </div>
             </div>
         </Link>

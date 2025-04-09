@@ -6,12 +6,14 @@ import CommentSection from "../components/CommentSection";
 import { BiBookmark, BiHeart } from "react-icons/bi";
 import AuthGuard from "../utils/AuthGuard";
 import { motion } from 'framer-motion';
+import { useAuthStore } from "../store/useAuthStore";
 
 function BlogDetail() {
   const { id } = useParams();
   const blogId = Number(id);
   const [blog, setBlog] = useState<BlogType | null>(null);
   const [comments,setComments] = useState<CommentType[]>([]);
+  const isAuthenticated = useAuthStore((state)=>state.isAuthenticated);
 
   useEffect(() => {
     const getBlogAndComments = async () => {
@@ -22,7 +24,7 @@ function BlogDetail() {
           ]);
         const blogdata = await blogRes.json();
         const commentData = await commentRes.json();
-
+       
         setBlog(blogdata);
         setComments(commentData);
 
@@ -33,6 +35,7 @@ function BlogDetail() {
   
     getBlogAndComments();
   }, [blogId,id]); 
+  // console.log(comments)
 
   if (!blog) return <Spinner size={40}/>
 
@@ -45,9 +48,11 @@ function BlogDetail() {
       <h1 className="text-3xl font-bold mb-4">{blog.title}</h1>
       <div className="flex items-center justify-between">
         <p className="text-gray-600 mb-2">By {blog.author.username}</p>
+        <p className="text-gray-600 mb-2">{blog.readingTime === null ? "1 min" : `${blog.readingTime} min` }</p>
         <p className="text-sm text-gray-500 mb-6">
           {new Date(blog.createdAt).toLocaleDateString()}
         </p>
+        
       </div>
       <div className="text-lg leading-relaxed">{blog.content}</div>
       <div className="flex items-center justify-end gap-2">
@@ -58,7 +63,7 @@ function BlogDetail() {
             <p><BiBookmark/></p>
           </AuthGuard>
       </div>
-      <CommentSection comments={comments} blogId={blogId} isAuthenticated={false}/>
+      <CommentSection comments={comments} blogId={blogId} isAuthenticated={isAuthenticated}/>
     </motion.div>
   );
 }

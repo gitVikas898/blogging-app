@@ -62,7 +62,7 @@ export const login = async function (
       process.env.JWT_SECRET as string,
       { expiresIn: "1d" }
     );
-    res.status(200).json({ token });
+    res.status(200).json({ token ,user});
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }

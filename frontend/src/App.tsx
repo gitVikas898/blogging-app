@@ -8,6 +8,8 @@ import Signup from './pages/Signup'
 import Blogs from './pages/Blogs'
 import Footer from './components/Footer'
 import ReadBlog from './pages/ReadBlog'
+import PrivateRoute from './components/ProtectedRoute'
+import Dashboard from './pages/Dashboard'
 function App() {
 
 
@@ -20,6 +22,11 @@ function App() {
             <Route path='/signup' element={<Signup/>}></Route>
             <Route path='/blogs' element={<Blogs/>}></Route>
             <Route path='/blogs/:id' element={<ReadBlog/>}></Route>
+            <Route path='/dashboard' element={
+              <PrivateRoute>
+                  <Dashboard/>
+              </PrivateRoute>
+            }/>
         </Routes>
       <Footer/>
     </Router>

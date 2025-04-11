@@ -12,7 +12,7 @@ const CommentSection = ({
     const [newComment, setNewComment] = useState("");
     const [loading, setLoading] = useState(false);
     const [commentList, setCommentList] = useState(comments);
-    const { token, user, } = useAuthStore();
+    const { token } = useAuthStore();
     const handleSubmit = async () => {
 
         if (!newComment.trim()) {
@@ -36,15 +36,9 @@ const CommentSection = ({
 
             if (res.ok) {
                 const result = await res.json()
-                const enrichedComment = {
-                    ...result,
-                    user:{
-                        username:user?.username
-                    },
-
-                }
+              
                 setNewComment("");
-                setCommentList(prev => [enrichedComment, ...prev])
+                setCommentList(prev => [result, ...prev])
                 onNewComment?.();
             } else {
                 console.error("Failed to post comment")
@@ -68,7 +62,7 @@ const CommentSection = ({
             {commentList.length > 0 ? (
                 <div  className="space-y-3">
                     {commentList.map((comment) => (
-                        <div key={comment.createdAt} className="text-sm bg-gray-100 p-2 rounded-md grid gap-2">
+                        <div key={comment.id} className="text-sm bg-gray-100 p-2 rounded-md grid gap-2">
                             <div className="flex items-center justify-between">
                                 <p className="flex items-center gap-1"><BiUser/>{comment?.user?.username}</p>
                                 <p>{new Date(comment.createdAt).toLocaleDateString()}</p>

@@ -24,10 +24,18 @@ export async function createComment(req:AuthenticatedUser, res:Response) {
                 content,
                 userId,
                 blogId,
+            },
+            include:{
+                user:{
+                    select:{
+                        username:true,
+                    }
+                ,}
+                
             }
         })
-        const response = comment.content
-        res.status(201).json({message:`Comment: ${response} created`});
+       
+        res.status(201).json(comment);
 
     }catch(error){
         res.status(500).json({ message: "Error creating comment", error });
@@ -62,8 +70,8 @@ export async function deleteComment(req:AuthenticatedUser,res:Response) {
             where:{id:Number(id)}
         });
         
-        const response = deleteComment.content;
-        res.json({message:`Comment: ${response} deleted`});
+        
+        res.json(comment);
 
     }catch(error){
         res.status(500).json({ message: "Error deleting comment", error });

@@ -90,6 +90,7 @@ export async function getComments(req:Request,res:Response) {
                 include:{
                     user:{
                         select:{
+                            id:true,
                             username:true,
                         }
                     }

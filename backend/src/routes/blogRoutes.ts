@@ -5,6 +5,7 @@ import { likeBlog } from "../controllers/likeController";
 import { createComment, deleteComment, getComments } from "../controllers/commentController";
 import { toggleBookmark } from "../controllers/bookMarkController";
 import { assignTag, getBlogsByTag } from "../controllers/tagController";
+import { OptionalMiddleware } from "../middlewares/optionalAuth";
 const router = express.Router();
 
 
@@ -12,7 +13,7 @@ router.post("/createBlog",authMiddleware,createBlog);
 router.post("/publishBlog",authMiddleware,publishBlog);
 router.patch("/updateBlog/:id",authMiddleware,updateBlog);
 router.get("/blogs",getBlogs);
-router.get("/blogs/:id", getBlogById);
+router.get("/blogs/:id",OptionalMiddleware, getBlogById);
 
 router.post("/blog/like",authMiddleware,likeBlog)
 

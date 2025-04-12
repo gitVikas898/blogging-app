@@ -41,6 +41,7 @@ export interface BlogType {
 }
 
 export interface BlogCommentProps {
+  userId:number
   blogId:number,
   comments:CommentType[]
   isAuthenticated:boolean,
@@ -76,7 +77,7 @@ export interface BlogListProps {
 }
 
 export interface User {
-  _id: string;
+  _id: number;
   username: string;
   email: string;
   // add more if needed (e.g. avatar, role)

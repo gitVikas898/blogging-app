@@ -7,6 +7,9 @@ import { BiBookmark, BiHeart } from "react-icons/bi";
 import AuthGuard from "../utils/AuthGuard";
 import { motion } from 'framer-motion';
 import { useAuthStore } from "../store/useAuthStore";
+import toast from "react-hot-toast";
+
+
 
 function BlogDetail() {
   const { id } = useParams();
@@ -14,12 +17,57 @@ function BlogDetail() {
   const [blog, setBlog] = useState<BlogType | null>(null);
   const [comments,setComments] = useState<CommentType[]>([]);
   const isAuthenticated = useAuthStore((state)=>state.isAuthenticated);
+  const [likeCount,setLikeCount] = useState(blog?._count.Like ?? 0);
+  const [isLiked,setIsLiked] = useState(false);
+  const {token} = useAuthStore();
+  const userId = useAuthStore((state)=>state.user?._id);
+
+  const handleToggleLike = async()=>{
+    const loadingToast = toast.loading("Processing...");
+
+    try{
+      const res = await fetch("http://localhost:8000/api/blog/like",{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json",
+          "Authorization":"Bearer "+token 
+        },
+        body:JSON.stringify({blogId}),
+      });
+
+      const result = await res.json();
+
+      if(res.ok){
+        setLikeCount(result.likeCount);
+        setIsLiked((prev)=>!prev);
+        toast.dismiss(loadingToast);
+        toast.success(result.message);
+      }else{
+        console.error(result.message)
+        toast.dismiss(loadingToast);
+        toast.error(result.message);
+      }
+    }catch(err){
+      console.error("Failed To toggle Like",err);
+      toast.dismiss(loadingToast);
+      toast.error("Network error");
+    }
+  }
+
+
+
+
+
 
   useEffect(() => {
     const getBlogAndComments = async () => {
       try {
         const [blogRes,commentRes] = await Promise.all([
-          fetch(`http://localhost:8000/api/blogs/${id}`),
+          fetch(`http://localhost:8000/api/blogs/${id}`,{
+            headers:{
+              Authorization: token ? `Bearer ${token}` : "",
+            }
+          }),
           fetch(`http://localhost:8000/api/blog/${blogId}/comments`)
           ]);
         const blogdata = await blogRes.json();
@@ -27,6 +75,8 @@ function BlogDetail() {
        
         setBlog(blogdata);
         setComments(commentData);
+        setLikeCount(blogdata._count.Like)
+        setIsLiked(blogdata.hasLiked || false);
 
       } catch (err) {
         console.error(err);
@@ -34,7 +84,7 @@ function BlogDetail() {
     };
   
     getBlogAndComments();
-  }, [blogId,id]); 
+  }, [blogId,id,token]); 
   // console.log(comments)
 
   if (!blog) return <Spinner size={40}/>
@@ -56,14 +106,16 @@ function BlogDetail() {
       </div>
       <div className="text-lg leading-relaxed">{blog.content}</div>
       <div className="flex items-center justify-end gap-2">
-          <AuthGuard isAuthenticated={false}>
-            <p className="flex items-center gap-1"><BiHeart/>{blog._count.Like ?? 0}</p>
+          <AuthGuard isAuthenticated={isAuthenticated}>
+            <button
+              onClick={handleToggleLike}
+             className="flex items-center gap-1 text-red-500 cursor-pointer hover:text-red-700 "><BiHeart  className={isLiked ? "fill-current" : ""} />{likeCount}</button>
           </AuthGuard>
-          <AuthGuard isAuthenticated={false}>
+          <AuthGuard isAuthenticated={isAuthenticated}>
             <p><BiBookmark/></p>
           </AuthGuard>
       </div>
-      <CommentSection comments={comments} blogId={blogId} isAuthenticated={isAuthenticated}/>
+      <CommentSection comments={comments} blogId={blogId} isAuthenticated={isAuthenticated} />
     </motion.div>
   );
 }

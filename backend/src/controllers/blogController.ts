@@ -140,33 +140,49 @@ export async function publishBlog(req:AuthenticatedRequest,res:Response) {
     }
 }
 
-export async function getBlogById(req:Request,res:Response) {
-    const {id} = req.params;
-
-    try{
-
-        const blog = await prisma.blog.findUnique({
-            where:{id:parseInt(id)},
-            include:{
-                author:{select:{username:true}},
-                BlogTags:{
-                    include:{
-                        tag:true,
-                    }
-                },
-                _count:{
-                    select:{Like:true}
-                },
-                comments:true
-            }
-        });
-
-        if(!blog){
-            res.status(404).json({message:"Blog Not Found"});
+export async function getBlogById(req: AuthenticatedRequest, res: Response) {
+    const { id } = req.params;
+  
+    try {
+      const blogId = parseInt(id);
+      const userId = req.user?.userId;
+  
+      const blog = await prisma.blog.findUnique({
+        where: { id: blogId },
+        include: {
+          author: { select: { username: true } },
+          BlogTags: {
+            include: { tag: true },
+          },
+          _count: { select: { Like: true } },
+          comments: true,
         }
-        res.json(blog);
-
-    }catch(error){
-        res.status(500).json({message:"Server error"});
+      });
+  
+      if (!blog) {
+       res.status(404).json({ message: "Blog Not Found" });
+       return 
+      }
+  
+      // 👍 Always return like count
+      // ✅ Add hasLiked only if user is authenticated
+      let hasLiked = false;
+  
+      if (userId) {
+        const like = await prisma.like.findFirst({
+          where: { userId, blogId }
+        });
+        hasLiked = !!like;
+      }
+  
+      res.json({
+        ...blog,
+        hasLiked: userId ? hasLiked : undefined // ← smart optionality
+      });
+  
+    } catch (error) {
+      res.status(500).json({ message: "Server error" });
+      return
     }
-}
+  }
+  

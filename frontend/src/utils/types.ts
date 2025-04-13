@@ -41,7 +41,6 @@ export interface BlogType {
 }
 
 export interface BlogCommentProps {
-  userId:number
   blogId:number,
   comments:CommentType[]
   isAuthenticated:boolean,

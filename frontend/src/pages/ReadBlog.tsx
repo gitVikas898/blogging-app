@@ -19,8 +19,7 @@ function BlogDetail() {
   const isAuthenticated = useAuthStore((state)=>state.isAuthenticated);
   const [likeCount,setLikeCount] = useState(blog?._count.Like ?? 0);
   const [isLiked,setIsLiked] = useState(false);
-  const {token} = useAuthStore();
-  const userId = useAuthStore((state)=>state.user?._id);
+  const {token} = useAuthStore(); 
 
   const handleToggleLike = async()=>{
     const loadingToast = toast.loading("Processing...");

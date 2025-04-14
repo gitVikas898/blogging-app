@@ -74,7 +74,7 @@ function BlogDetail() {
        
         setBlog(blogdata);
         setComments(commentData);
-        setLikeCount(blogdata._count.Like)
+        setLikeCount(blogdata._count?.Like)
         setIsLiked(blogdata.hasLiked || false);
 
       } catch (err) {

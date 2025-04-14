@@ -19,7 +19,7 @@ const Blogs = () => {
           initial={{ opacity: 0, y: 50 }} // Start faded and slightly below
           animate={{ opacity: 1, y: 0 }}   // Animate to full opacity and original position
           transition={{ duration: 0.6, ease: "easeOut" }}
-        className="flex items-center justify-center"><TagSection selectedTag={selectedTag} onTagClick={handleClick}/></motion.div>
+        className=""><TagSection selectedTag={selectedTag} onTagClick={handleClick}/></motion.div>
         <motion.div
         initial={{ opacity: 0, y: 50 }} // Start faded and slightly below
         animate={{ opacity: 1, y: 0 }}   // Animate to full opacity and original position

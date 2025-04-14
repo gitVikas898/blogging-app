@@ -1,5 +1,6 @@
 
 
+
 export interface BlogCardProps {
     id:number,
     title:string,
@@ -76,7 +77,7 @@ export interface BlogListProps {
 }
 
 export interface User {
-  _id: number;
+  id: number;
   username: string;
   email: string;
   // add more if needed (e.g. avatar, role)
@@ -93,4 +94,22 @@ export interface AuthStore {
 
 export interface PrivateRouteProps {
   children: React.ReactNode;
+}
+
+export interface UserCardProps {
+  username: string;
+  id: number;
+  email: string;
+  followersCount: number;
+  intrests: { title: string }[]; // note the plural name from your API response
+  memberSince: string;
+  bio: { content: string }[]; // array of bio objects
+  blogs: BlogType[];
+}
+
+export interface BlogType {
+  id:number;
+  title:string
+  content:string;
+  createdAt:string;
 }

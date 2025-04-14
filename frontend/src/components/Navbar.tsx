@@ -1,7 +1,7 @@
-import { BiArrowToRight, BiBook } from "react-icons/bi";
+import { BiArrowToRight, BiBook, BiEdit } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
-
+import { MdDashboard } from "react-icons/md";
 const Navbar = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const logout = useAuthStore((state) => state.logout);
@@ -30,7 +30,10 @@ const Navbar = () => {
         {isAuthenticated ? (
           <>
             <li>
-              <Link to="/dashboard">Dashboard</Link>
+              <Link to="/dashboard" className="flex items-center gap-1"><MdDashboard /> Dashboard</Link>
+            </li>
+            <li>
+                <Link to={"/write"} className="flex items-center gap-1"><BiEdit/>Write</Link>
             </li>
             <li>
               <button
@@ -40,6 +43,7 @@ const Navbar = () => {
                 Logout
               </button>
             </li>
+           
           </>
         ) : (
           <>

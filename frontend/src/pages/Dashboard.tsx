@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useAuthStore } from "../store/useAuthStore"
 import Blogs from "./Blogs"
 import UserCard from "../components/UserCard";
-import { UserCardProps } from "../utils/types";
+import { FollowType, UserCardProps } from "../utils/types";
 import SkeletonUserCard from "../components/SkeletonCard";
+import Follow from "../components/Follow";
 
 
 
@@ -15,19 +16,22 @@ const Dashboard = () => {
   console.log(id);
 
   const [userDetails, setUserDetails] = useState<UserCardProps>();
+  const [users,setUsers] = useState<FollowType[]>([]);
 
 
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/api/auth/users/${id}`);
-        if (!res.ok) {
-          throw new Error("Failed to fetch users");
-        }
-        const data = await res.json();
-        setUserDetails(data);
-        console.log(data);
-
+        const [oneUser,manyUser] = await Promise.all(
+          [fetch(`http://localhost:8000/api/auth/users/${id}`)
+          ,fetch("http://localhost:8000/api/auth/users")
+        ]);
+       
+        const data1 = await oneUser.json();
+        const data2 = await manyUser.json();
+        setUserDetails(data1);
+        setUsers(data2);
+        
       } catch (error) {
         console.error(error);
       }
@@ -36,6 +40,7 @@ const Dashboard = () => {
     getUserData();
   }, [id]);
 
+  const filteredUser = users.filter((user)=>user.id !== userId);
 
 
   return (
@@ -62,6 +67,12 @@ const Dashboard = () => {
         ) : (
           <SkeletonUserCard />
         )}
+
+        {filteredUser.map((user)=>{
+          return(
+            <Follow username={user.username} id={user.id}/>
+          )
+        })}
       </aside>
 
     </section>

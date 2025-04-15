@@ -113,3 +113,11 @@ export interface BlogType {
   content:string;
   createdAt:string;
 }
+
+export interface FollowType{
+    id:number,
+    username:string,
+    email?:string,
+    createdAt?:string
+    onFollow?:()=>void
+}

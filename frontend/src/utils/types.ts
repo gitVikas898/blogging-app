@@ -105,6 +105,7 @@ export interface UserCardProps {
   memberSince: string;
   bio: { content: string }[]; // array of bio objects
   blogs: BlogType[];
+  setBio?:()=>void
 }
 
 export interface BlogType {

@@ -99,9 +99,9 @@ const AuthForm: React.FC<AuthFormProps> = ({
 
             <input
               {...signUpForm.register("password")}
-              type="password"
+              type="text"
               placeholder="Password"
-              className="p-2 rounded-md w-full border-gray-400 shadow-sm bg-gray-50 border outline-none"
+              className="p-2 text-2xl rounded-md w-full border-gray-400 shadow-sm bg-gray-50 border outline-none"
             />
             {signUpForm.formState.errors.password && (
               <p className="text-sm text-red-500">{signUpForm.formState.errors.password.message}</p>
